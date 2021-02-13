@@ -24,12 +24,25 @@ endfunction ()
 #
 include (third_party_cpp_deps.cmake)
 
+######################################## all external deps go here ########################################
+
+set (EP ${SPDLOG_EP})
 ExternalProject_Add (${SPDLOG_EP}
-	PREFIX ${SPDLOG_EP}
+	PREFIX ${EP}
 	URL https://github.com/gabime/spdlog/archive/v1.8.2.tar.gz
 	URL_HASH SHA256=e20e6bd8f57e866eaf25a5417f0a38a116e537f1a77ac7b5409ca2b180cec0d5
-	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_OUTPUT_DIR}/${SPDLOG_EP}
+	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_OUTPUT_DIR}/${EP}
 )
+
+set (EP ${NLOHMANN_JSON_EP})
+ExternalProject_Add (${EP}
+	PREFIX ${EP}
+	URL https://github.com/nlohmann/json/archive/v3.9.1.zip
+	URL_HASH SHA256=a88449d68aab8d027c5beefe911ba217f5ffcc0686ae1793d37f3d20698b37c6
+	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_OUTPUT_DIR}/${EP} -DBUILD_TESTING=OFF
+)
+
+################################################ end ######################################################
 
 # install all external projects
 install_all_ep ()

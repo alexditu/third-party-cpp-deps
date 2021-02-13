@@ -1,6 +1,7 @@
 set (SPDLOG_EP spdlog-ep)
+set (NLOHMANN_JSON_EP nlohmann-json-ep)
 
-set (ALL_THIRD_PARTY_EP_LIST ${SPDLOG_EP})
+set (ALL_THIRD_PARTY_EP_LIST ${SPDLOG_EP} ${NLOHMANN_JSON_EP})
 
 
 
