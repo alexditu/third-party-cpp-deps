@@ -42,6 +42,26 @@ ExternalProject_Add (${EP}
 	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_OUTPUT_DIR}/${EP} -DBUILD_TESTING=OFF
 )
 
+set (EP ${MONGO_C_DRIVER_EP})
+ExternalProject_Add (${EP}
+	PREFIX ${EP}
+	URL https://github.com/mongodb/mongo-c-driver/releases/download/1.17.4/mongo-c-driver-1.17.4.tar.gz
+	URL_HASH MD5=f28f5acb3b5f1f71df2717d4d321fbd2
+	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_OUTPUT_DIR}/${EP} -DENABLE_STATIC=ON
+)
+
+set (EP ${MONGO_CXX_DRIVER_EP})
+ExternalProject_Add (${EP}
+	PREFIX ${EP}
+	URL https://github.com/mongodb/mongo-cxx-driver/releases/download/r3.6.2/mongo-cxx-driver-r3.6.2.tar.gz
+	URL_HASH MD5=7d081fa894b59b784f0d13c001f9fe7a
+	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_OUTPUT_DIR}/${EP}
+				-DCMAKE_PREFIX_PATH=${EP_OUTPUT_DIR}/${MONGO_C_DRIVER_EP}
+				-DBUILD_SHARED_LIBS=OFF
+)
+
+add_dependencies (${MONGO_CXX_DRIVER_EP} ${MONGO_C_DRIVER_EP})
+
 ################################################ end ######################################################
 
 # install all external projects

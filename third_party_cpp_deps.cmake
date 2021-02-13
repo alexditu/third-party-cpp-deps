@@ -1,7 +1,9 @@
 set (SPDLOG_EP spdlog-ep)
 set (NLOHMANN_JSON_EP nlohmann-json-ep)
+set (MONGO_C_DRIVER_EP mongo-c-driver-ep)
+set (MONGO_CXX_DRIVER_EP mongo-cxx-driver-ep)
 
-set (ALL_THIRD_PARTY_EP_LIST ${SPDLOG_EP} ${NLOHMANN_JSON_EP})
+set (ALL_THIRD_PARTY_EP_LIST ${SPDLOG_EP} ${NLOHMANN_JSON_EP} ${MONGO_C_DRIVER_EP} ${MONGO_CXX_DRIVER_EP})
 
 
 
