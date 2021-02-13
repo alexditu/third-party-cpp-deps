@@ -13,7 +13,17 @@ function (install_ep DEP_NAME)
 	install (DIRECTORY ${EP_OUTPUT_DIR}/${DEP_NAME} DESTINATION ".")
 endfunction ()
 
-set (SPDLOG_EP spdlog-ep)
+function (install_all_ep)
+	foreach (ep ${ALL_THIRD_PARTY_EP_LIST})
+		install_ep(${ep})
+	endforeach ()
+endfunction ()
+
+#
+# IMPORTANT: update this list while adding new dependencies
+#
+include (third_party_cpp_deps.cmake)
+
 ExternalProject_Add (${SPDLOG_EP}
 	PREFIX ${SPDLOG_EP}
 	URL https://github.com/gabime/spdlog/archive/v1.8.2.tar.gz
@@ -21,8 +31,10 @@ ExternalProject_Add (${SPDLOG_EP}
 	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_OUTPUT_DIR}/${SPDLOG_EP}
 )
 
-install_ep (${SPDLOG_EP})
+# install all external projects
+install_all_ep ()
 
+# export needed for consumer files
 install (FILES third_party_cpp_deps.cmake DESTINATION ".")
 
 # set (DEPS_EXPORT_NAME "third-party-cpp-deps")

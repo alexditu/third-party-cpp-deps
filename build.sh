@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -x
-
 BUILD_DIR="builddir"
 if [ $# -eq 1 ]; then
 	BUILD_DIR="$1"

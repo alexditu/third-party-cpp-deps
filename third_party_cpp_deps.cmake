@@ -1,3 +1,9 @@
+set (SPDLOG_EP spdlog-ep)
+
+set (ALL_THIRD_PARTY_EP_LIST ${SPDLOG_EP})
+
+
+
 #
 # param TARGET  : target to wich to add the include directory
 # param TYPE    : type of include, one of: PRIVATE | PUBLIC
