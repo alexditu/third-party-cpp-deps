@@ -26,6 +26,7 @@ include (third_party_cpp_deps.cmake)
 
 ######################################## all external deps go here ########################################
 
+# spdlog
 set (EP ${SPDLOG_EP})
 ExternalProject_Add (${SPDLOG_EP}
 	PREFIX ${EP}
@@ -34,6 +35,7 @@ ExternalProject_Add (${SPDLOG_EP}
 	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_OUTPUT_DIR}/${EP}
 )
 
+# nlohmann/json
 set (EP ${NLOHMANN_JSON_EP})
 ExternalProject_Add (${EP}
 	PREFIX ${EP}
@@ -42,6 +44,7 @@ ExternalProject_Add (${EP}
 	CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${EP_OUTPUT_DIR}/${EP} -DBUILD_TESTING=OFF
 )
 
+# mongo C and CXX drivers
 set (EP ${MONGO_C_DRIVER_EP})
 ExternalProject_Add (${EP}
 	PREFIX ${EP}
@@ -61,6 +64,43 @@ ExternalProject_Add (${EP}
 )
 
 add_dependencies (${MONGO_CXX_DRIVER_EP} ${MONGO_C_DRIVER_EP})
+# end of # mongo C and CXX drivers
+
+#
+# QT 6
+#
+
+#[[
+git clone https://github.com/qt/qtbase
+git checkout 6.1
+
+mkdir builddir installdir
+/tmp/tmp.geZ6nwLhUx/qtbase/installdir
+
+../configure -list-features
+../configure -help
+../configure -developer-build -opensource -nomake examples -nomake tests -confirm-license -prefix /tmp/tmp.geZ6nwLhUx/qtbase/installdir -no-dbus -no-opengl
+cmake --build . --parallel
+cmake --install
+
+other options:
+-shared
+-static
+-c++std c++17
+#]]
+
+set (EP ${QT6_BASE_EP})
+ExternalProject_Add (${EP}
+	PREFIX ${EP}
+	GIT_REPOSITORY https://github.com/qt/qtbase
+	GIT_TAG 6.1
+	GIT_SHALLOW On
+	GIT_PROGRESS On
+	CONFIGURE_COMMAND ../${QT6_BASE_EP}/configure -developer-build -opensource -nomake examples -nomake tests -confirm-license -no-dbus -no-opengl -shared -static -prefix ${EP_OUTPUT_DIR}/${EP}
+	BUILD_COMMAND cmake --build . --parallel
+	INSTALL_COMMAND cmake --build . --target install
+)
+# end of QT 6
 
 ################################################ end ######################################################
 
