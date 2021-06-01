@@ -71,6 +71,15 @@ add_dependencies (${MONGO_CXX_DRIVER_EP} ${MONGO_C_DRIVER_EP})
 #
 
 #[[
+https://doc.qt.io/qt-6/linux-requirements.html
+https://doc.qt.io/qt-6/linux-deployment.html
+https://doc.qt.io/qt-6/linux.html
+
+X11 libs:
+# it worked without mesa, don't know why :-?
+sudo apt-get install build-essential libgl1-mesa-dev
+sudo apt install libfontconfig1-dev libfreetype6-dev libx11-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-util-dev libxcb-xinerama0-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev
+
 git clone https://github.com/qt/qtbase
 git checkout 6.1
 
@@ -84,11 +93,11 @@ cmake --build . --parallel
 cmake --install
 
 other options:
--shared
--static
+either -shared or -static
 -c++std c++17
 #]]
 
+# Note: static version not working yet, still need to investigate how to link the final executable that uses Qt6 static build
 set (EP ${QT6_BASE_EP})
 ExternalProject_Add (${EP}
 	PREFIX ${EP}
@@ -96,7 +105,7 @@ ExternalProject_Add (${EP}
 	GIT_TAG 6.1
 	GIT_SHALLOW On
 	GIT_PROGRESS On
-	CONFIGURE_COMMAND ../${QT6_BASE_EP}/configure -developer-build -opensource -nomake examples -nomake tests -confirm-license -no-dbus -no-opengl -shared -static -prefix ${EP_OUTPUT_DIR}/${EP}
+	CONFIGURE_COMMAND ../${QT6_BASE_EP}/configure -developer-build -opensource -nomake examples -nomake tests -confirm-license -no-dbus -no-opengl -shared -prefix ${EP_OUTPUT_DIR}/${EP}
 	BUILD_COMMAND cmake --build . --parallel
 	INSTALL_COMMAND cmake --build . --target install
 )

@@ -4,7 +4,7 @@ set (MONGO_C_DRIVER_EP mongo-c-driver-ep)
 set (MONGO_CXX_DRIVER_EP mongo-cxx-driver-ep)
 set (QT6_BASE_EP qt6-base-ep)
 
-set (ALL_THIRD_PARTY_EP_LIST ${SPDLOG_EP} ${NLOHMANN_JSON_EP} ${MONGO_C_DRIVER_EP} ${MONGO_CXX_DRIVER_EP})
+set (ALL_THIRD_PARTY_EP_LIST ${SPDLOG_EP} ${NLOHMANN_JSON_EP} ${MONGO_C_DRIVER_EP} ${MONGO_CXX_DRIVER_EP} ${QT6_BASE_EP})
 
 
 
@@ -31,7 +31,7 @@ endfunction ()
 #
 # param BASE_DIR: directory of third party deps sources dir
 #
-function (add_third_global_include_dir BASE_DIR)
+function (add_third_party_include_dir_global BASE_DIR)
 	file (GLOB deps "${BASE_DIR}/*")
 	foreach (dep ${deps})
 		if (IS_DIRECTORY ${dep})
@@ -43,7 +43,7 @@ endfunction ()
 #
 # param BASE_DIR: directory of third party deps sources dir
 #
-function (add_third_global_lib_dir BASE_DIR)
+function (add_third_party_lib_dir_global BASE_DIR)
 	file (GLOB deps "${BASE_DIR}/*")
 	foreach (dep ${deps})
 		if (IS_DIRECTORY ${dep})
@@ -77,8 +77,8 @@ include ("${THIRD_PARTY_DEPS_DIR}/third_party_cpp_deps.cmake")
 # now you can add third party deps:
 
 # for global dependencies:
-add_third_global_include_dir (${THIRD_PARTY_DEPS_DIR})
-add_third_global_lib_dir (${THIRD_PARTY_DEPS_DIR})
+add_third_party_include_dir_global (${THIRD_PARTY_DEPS_DIR})
+add_third_party_lib_dir_global (${THIRD_PARTY_DEPS_DIR})
 
 # for per target dependencies:
 add_third_party_include_dir (main PRIVATE spdlog-ep ${THIRD_PARTY_DEPS_DIR})
